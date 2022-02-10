@@ -21,6 +21,10 @@ public class SoftwareVideoDecoderFactory implements VideoDecoderFactory {
   public VideoDecoder createDecoder(VideoCodecInfo codecInfo) {
     String codecName = codecInfo.getName();
 
+    if (codecName.equalsIgnoreCase(VideoCodecMimeType.H264.name())
+            && H264Decoder.nativeIsSupported()) {
+      return new H264Decoder();
+    }
     if (codecName.equalsIgnoreCase(VideoCodecMimeType.VP8.name())) {
       return new LibvpxVp8Decoder();
     }
@@ -44,6 +48,9 @@ public class SoftwareVideoDecoderFactory implements VideoDecoderFactory {
   static VideoCodecInfo[] supportedCodecs() {
     List<VideoCodecInfo> codecs = new ArrayList<VideoCodecInfo>();
 
+    if (H264Decoder.nativeIsSupported()) {
+      codecs.add(new VideoCodecInfo(VideoCodecMimeType.H264.name(), new HashMap<>()));
+    }
     codecs.add(new VideoCodecInfo(VideoCodecMimeType.VP8.name(), new HashMap<>()));
     if (LibvpxVp9Decoder.nativeIsSupported()) {
       codecs.add(new VideoCodecInfo(VideoCodecMimeType.VP9.name(), new HashMap<>()));
