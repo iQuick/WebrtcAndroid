@@ -5,7 +5,7 @@ This is an Android Studio reference project for WebRTC based video and voice cal
 ## build
 
 * date:2022/02/09
-* version: 4855
+* version: branch-heads/4855
 
 
 gn configuration is：
